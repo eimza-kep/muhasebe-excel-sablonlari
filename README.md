@@ -35,26 +35,55 @@ Tüm dosyalar gerçek Excel formülleriyle (`SUM`, `ROUND`, `IF`, `MIN`, `MAX`) 
 
 ---
 
-## 🧪 Test ve Doğrulama
+## 💻 Komut Satırı (CLI) Hesaplama Motoru
 
-Repodaki tüm tablolar `scripts/test_spreadsheets.py` betiği ile otomatik olarak test edilir:
+Excel dosyalarına ek olarak repo içerisinde terminalden hızlıca hesaplama yapabilmeniz için Python CLI motoru yer almaktadır:
 
 ```bash
+# e-SMM Brütten Nete Hesaplama
+python calculate_smm.py esmm 25000
+
+# e-SMM Netten Brüte Hesaplama
+python calculate_smm.py esmm 20000 --net
+
+# KDV Tevkifatı Hesaplama (5/10, 2/10, 9/10 vb.)
+python calculate_smm.py tevkifat 50000 --oran 5/10 --markdown
+
+# Kıdem Tazminatı ve Damga Vergisi Hesabı (JSON formatında)
+python calculate_smm.py kidem 40000 4.5 --json
+```
+
+---
+
+## 🧪 Test ve Doğrulama
+
+Repodaki tüm tablolar ve CLI motoru otomatik olarak test edilir:
+
+```bash
+# Birim testleri çalıştırma
+python test_calculate.py
+
+# Excel şablon doğrulaması
 pip install openpyxl
 python scripts/test_spreadsheets.py
 ```
 
 ---
 
-## 🌐 E-Dönüşüm Ekosistemi
+## 🌐 E-Dönüşüm Açık Kaynak Ekosistemi
 
-Bu depo, [@eimza-kep](https://github.com/eimza-kep) açık kaynak ekosisteminin bir parçasıdır:
-* 📖 [e-donusum-rehberleri](https://github.com/eimza-kep/e-donusum-rehberleri) - Türkiye'nin en kapsamlı 24 e-Dönüşüm rehberi ve tıkla-çalıştır araçları.
-* ⚖️ [avukat-hukuk-excel-hesaplamalari](https://github.com/eimza-kep/avukat-hukuk-excel-hesaplamalari) - Avukatlar için AAÜT, icra kapak, faiz ve dava harcı Excel şablonları.
+Bu depo, [@eimza-kep](https://github.com/eimza-kep) açık kaynak ekosisteminin muhasebe ve finans bileşenidir. İlgili diğer araçlar:
+
+* 📄 [e-fatura-xml-goruntuleyici](https://github.com/eimza-kep/e-fatura-xml-goruntuleyici) - UBL-TR e-Fatura ve e-İrsaliye XML dosyalarını ayrıştırma ve KDV dökümü aracı.
+* 📑 [gib-edefter-berat-xml-dogrulayici](https://github.com/eimza-kep/gib-edefter-berat-xml-dogrulayici) - GİB e-Defter ve berat XML dosyaları hash ve şema doğrulayıcı.
+* 🔏 [mali-muhur-eimza-suresi-kontrol](https://github.com/eimza-kep/mali-muhur-eimza-suresi-kontrol) - Mali mühür ve e-İmza sertifika geçerlilik ve son kullanma tarihi denetleyici.
 * 🏢 [kobi-finans-yonetim-excel-sablonlari](https://github.com/eimza-kep/kobi-finans-yonetim-excel-sablonlari) - KOBİ'ler için nakit akış, başabaş ve stok takip tabloları.
+* ⚖️ [avukat-hukuk-excel-hesaplamalari](https://github.com/eimza-kep/avukat-hukuk-excel-hesaplamalari) - Avukatlar ve hukuk büroları için arabuluculuk, serbest meslek ve icra faiz araçları.
+* 🌟 [awesome-turkiye-e-donusum](https://github.com/eimza-kep/awesome-turkiye-e-donusum) - Türkiye e-Dönüşüm açık kaynak araçları ve kütüphaneleri kürasyonu.
 
 ---
 
 ## 📜 Lisans
 
 Bu proje **MIT Lisansı** ile lisanslanmıştır. Ticari veya bireysel olarak serbestçe indirilebilir, kopyalanabilir ve mesleki çalışmalarda kullanılabilir.
+
