@@ -101,6 +101,22 @@ def calculate_kidem_tazminati(brut_ucret: float, yil: float, kidem_tavani: float
         "net_kidem_tazminati": round(net_kidem, 2)
     }
 
+def calculate_ydo(tutar: float, ydo_orani: float = 0.4393) -> dict:
+    """
+    Yeniden Değerleme Oranı (YDO) Artış Hesabı:
+    - Güncellenen Tutar = Tutar * (1 + YDO Oranı)
+    """
+    tutar = float(tutar)
+    oran = float(ydo_orani)
+    artis = tutar * oran
+    yeni = tutar + artis
+    return {
+        "eski_tutar": round(tutar, 2),
+        "ydo_orani": oran,
+        "artis_tutari": round(artis, 2),
+        "yeni_tutar": round(yeni, 2)
+    }
+
 def main():
     import argparse
     parent_parser = argparse.ArgumentParser(add_help=False)
@@ -128,6 +144,11 @@ def main():
     p_kidem.add_argument("brut", type=float, help="Aylık giydirilmiş brüt ücret (TL)")
     p_kidem.add_argument("yil", type=float, help="Hizmet süresi (Yıl)")
     p_kidem.add_argument("--tavan", type=float, default=46500.0, help="Güncel kıdem tazminatı tavanı")
+
+    # YDO
+    p_ydo = subparsers.add_parser("ydo", help="Yeniden Değerleme Oranı (YDO) Hesaplayıcı", parents=[parent_parser])
+    p_ydo.add_argument("tutar", type=float, help="Eski Tutar (TL)")
+    p_ydo.add_argument("--oran", type=float, default=0.4393, help="YDO oranı (Varsayılan: 0.4393 / %43.93)")
 
     args = parser.parse_args()
 
@@ -218,6 +239,29 @@ def main():
             print(f"Damga Vergisi (‰7.59)   : -{res['damga_vergisi']:,.2f} TL")
             print("-" * 60)
             print(f"NET ÖDENECEK KIDEM TAZ. : {res['net_kidem_tazminati']:,.2f} TL")
+            print("=" * 60)
+
+    elif args.command == "ydo":
+        res = calculate_ydo(args.tutar, args.oran)
+
+        if args.json:
+            print(json.dumps(res, indent=2, ensure_ascii=False))
+        elif args.markdown:
+            print("| Kalem | Tutar / Değer |")
+            print("| :--- | :--- |")
+            print(f"| **Eski Tutar** | {res['eski_tutar']:,.2f} TL |")
+            print(f"| **YDO Oranı** | %{res['ydo_orani']*100:.2f} |")
+            print(f"| **Artış Tutarı** | +{res['artis_tutari']:,.2f} TL |")
+            print(f"| **Yeni Güncellenmiş Tutar** | **{res['yeni_tutar']:,.2f} TL** |")
+        else:
+            print("=" * 60)
+            print("       YENİDEN DEĞERLEME ORANI (YDO) HESAP TABLOSU")
+            print("=" * 60)
+            print(f"Eski Tutar              : {res['eski_tutar']:,.2f} TL")
+            print(f"YDO Oranı               : %{res['ydo_orani']*100:.2f}")
+            print(f"Artış Tutarı            : +{res['artis_tutari']:,.2f} TL")
+            print("-" * 60)
+            print(f"YENİ GÜNCELLENMİŞ TUTAR : {res['yeni_tutar']:,.2f} TL")
             print("=" * 60)
 
 if __name__ == "__main__":

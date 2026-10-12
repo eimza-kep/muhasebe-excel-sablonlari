@@ -1,5 +1,5 @@
 import unittest
-from calculate_smm import calculate_esmm_from_brut, calculate_esmm_from_net, calculate_kidem_tazminati, calculate_kdv_tevkifat
+from calculate_smm import calculate_esmm_from_brut, calculate_esmm_from_net, calculate_kidem_tazminati, calculate_kdv_tevkifat, calculate_ydo
 
 class TestCalculateSmm(unittest.TestCase):
     def test_esmm_from_brut(self):
@@ -30,6 +30,13 @@ class TestCalculateSmm(unittest.TestCase):
         self.assertEqual(res["tahsil_edilen_kdv"], 10000.0)
         self.assertEqual(res["fatura_toplam"], 110000.0)
         self.assertEqual(res["kdv2_beyan_tutari"], 10000.0)
+
+    def test_ydo(self):
+        # 10.000 TL * 0.4393 -> artış 4.393 TL, yeni tutar 14.393 TL
+        res = calculate_ydo(10000, 0.4393)
+        self.assertEqual(res["eski_tutar"], 10000.0)
+        self.assertEqual(res["artis_tutari"], 4393.0)
+        self.assertEqual(res["yeni_tutar"], 14393.0)
 
 if __name__ == "__main__":
     unittest.main()
